@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('wa-carousel', require('./components/WaCarousel.vue'));
+Vue.component('accordion', require('./components/Accordion.vue'));
 
 const app = new Vue({
     el: '#app'

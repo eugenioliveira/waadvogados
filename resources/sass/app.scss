@@ -30,37 +30,3 @@ body {
 .bg-slide {
   background: linear-gradient(to right, rgba(18, 40, 58, 1) 30%, rgba(18, 40, 58, 0));
 }
-
-.animate-caption {
-
-  -webkit-animation-name: slide-caption;
-  -moz-animation-name: slide-caption;
-  -o-animation-name: slide-caption;
-  animation-name: slide-caption;
-
-  -webkit-animation-timing-function: ease-in-out;
-  -moz-animation-timing-function: ease-in-out;
-  -o-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
-
-  -webkit-animation-duration: 600ms;
-  -moz-animation-duration: 600ms;
-  -o-animation-duration: 600ms;
-  animation-duration: 600ms;
-
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  -o-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-}
-
-@keyframes slide-caption {
-  from {
-    opacity: 0;
-    @apply .p-0;
-  }
-  to {
-    opacity: 1;
-    @apply .pt-16;
-  }
-}

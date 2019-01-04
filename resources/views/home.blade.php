@@ -5,7 +5,7 @@
 @section('content')
 
     {{--Carrossel--}}
-    <div id="app" class="hidden md:block">
+    <div id="app">
         <wa-carousel></wa-carousel>
     </div>
     {{--Fim do Carrossel--}}

@@ -16,12 +16,15 @@
     </div>
     <div class="w-full lg:flex lg:justify-around">
         <div class="uppercase font-serif">
-            <a href="#"
-               class="nav-active block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Home</a>
-            <a href="#" class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Institucional</a>
-            <a href="#" class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Áreas
+            <a href="{{ route('home') }}"
+               class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Home</a>
+            <a href="{{ route('about') }}"
+               class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Institucional</a>
+            <a href="{{ route('areas') }}"
+               class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Áreas
                 de atuação</a>
-            <a href="#" class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Profissionais</a>
+            <a href="{{ route('ourpeople') }}"
+               class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Profissionais</a>
             <a href="#"
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Artigos</a>
             <a href="#"

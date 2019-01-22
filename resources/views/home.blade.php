@@ -17,9 +17,11 @@
             <div class="border-2 border-blue-darker my-1"></div>
             <div class="border-2 border-blue-darker my-1"></div>
             <p class="text-center mt-4">
-                Nossa equipe conta com vasta experiência, com advogados e
-                profissionais de outras áreas, que possibiita uma prestação
-                de serviços qualificada.
+                <a class="text-inherit no-underline hover:underline" href="{{ route('ourpeople') }}">
+                    Nossa equipe conta com vasta experiência, com advogados e
+                    profissionais de outras áreas, que possibiita uma prestação
+                    de serviços qualificada.
+                </a>
             </p>
         </div>
         <div class="bg-grey-light rounded-lg p-4 shadow-md m-4 lg:mr-4 lg:w-1/3">
@@ -29,8 +31,10 @@
             <div class="border-2 border-blue-darker my-1"></div>
             <div class="border-2 border-blue-darker my-1"></div>
             <p class="text-center mt-4">
-                Prestamos serviços nas mais
-                variadas áreas do direito. Clique e saiba mais.
+                <a class="text-inherit no-underline hover:underline" href="{{ route('areas') }}">
+                    Prestamos serviços nas mais
+                    variadas áreas do direito. Clique e saiba mais.
+                </a>
             </p>
         </div>
         <div class="bg-grey-light rounded-lg p-4 shadow-md m-4 lg:w-1/3">

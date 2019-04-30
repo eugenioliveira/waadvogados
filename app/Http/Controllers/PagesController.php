@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\NewsFeeds;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -44,5 +45,15 @@ class PagesController extends Controller
     public function ourpeople()
     {
         return view('ourpeople');
+    }
+
+    /**
+     * Exibe a página com notícias dos tribunais.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function news()
+    {
+        return view('news');
     }
 }

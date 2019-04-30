@@ -28,8 +28,8 @@
 {{--Fim do rodapé--}}
 
 <script src="{{ asset('js/app.js') }}"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-        integrity="sha384-kW+oWsYx3YpxvjtZjFXqazFpA7UP/MbiY4jvs+RWZo2+N94PFZ36T6TFkc9O3qoB"
+<script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+        integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
         crossorigin="anonymous"></script>
 </body>
 </html>

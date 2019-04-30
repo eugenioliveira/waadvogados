@@ -13,6 +13,7 @@
 
 // Páginas estáticas
 Route::get('/', 'PagesController@home')->name('home');
-Route::get('/institucional', 'PagesController@about')->name('about');
-Route::get('/areasdeatuacao', 'PagesController@areas')->name('areas');
-Route::get('/profissionais', 'PagesController@ourpeople')->name('ourpeople');
+Route::get('institucional', 'PagesController@about')->name('about');
+Route::get('areasdeatuacao', 'PagesController@areas')->name('areas');
+Route::get('profissionais', 'PagesController@ourpeople')->name('ourpeople');
+Route::get('noticias', 'PagesController@news')->name('news');

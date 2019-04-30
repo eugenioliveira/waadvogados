@@ -25,9 +25,7 @@
                 de atuação</a>
             <a href="{{ route('ourpeople') }}"
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Profissionais</a>
-            <a href="#"
-               class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Artigos</a>
-            <a href="#"
+            <a href="{{ route('news') }}"
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Notícias</a>
             <a href="#"
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Contato</a>

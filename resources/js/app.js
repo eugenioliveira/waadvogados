@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -15,8 +14,10 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('wa-carousel', require('./components/WaCarousel.vue'));
-Vue.component('accordion', require('./components/Accordion.vue'));
+Vue.component('wa-carousel', require('./components/WaCarousel.vue').default);
+Vue.component('accordion', require('./components/Accordion.vue').default);
+Vue.component('news', require('./components/News/News.vue').default);
+Vue.component('news-tab', require('./components/News/NewsTab.vue').default);
 
 const app = new Vue({
     el: '#app'

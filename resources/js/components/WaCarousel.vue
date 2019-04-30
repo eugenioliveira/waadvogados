@@ -3,7 +3,7 @@
               :autoplay-hover-pause="true">
         <slide data-name="areas">
             <div class="w-full lg:h-300 bg-slide text-white relative z-10">
-                <transition appear name="slide-fade">
+                <transition appear :css="false" @before-enter="beforeEnter" @enter="enter" @leave="leave">
                     <div class="w-1/2 lg:w-1/4 ml-5 pt-10" v-show="currentPage === 0">
                         <p class="font-serif lg:text-3xl">ÁREAS DE ATUAÇÃO</p>
                         <div class="border-2 border-white my-1"></div>
@@ -21,7 +21,7 @@
         </slide>
         <slide data-name="profissionais">
             <div class="w-full lg:h-300 bg-slide text-white relative z-10">
-                <transition appear name="slide-fade">
+                <transition appear :css="false" @before-enter="beforeEnter" @enter="enter" @leave="leave">
                     <div class="w-1/2 lg:w-1/4 ml-5 pt-10" v-show="currentPage === 1">
                         <p class="font-serif lg:text-3xl">PROFISSIONAIS</p>
                         <div class="border-2 border-white my-1"></div>
@@ -43,6 +43,7 @@
 <script>
 
     import {Carousel, Slide} from 'vue-carousel';
+    import Velocity from 'velocity-animate';
 
     export default {
         name: "WaCarousel",
@@ -58,6 +59,18 @@
         methods: {
             changeCurrentPage(page) {
                 this.currentPage = page;
+            },
+
+            beforeEnter(el) {
+                el.style.opacity = 0;
+            },
+
+            enter(el, done) {
+                Velocity(el, {translateY: "30px", opacity: 1}, {delay: 500, duration: 500}, {complete: done});
+            },
+
+            leave(el, done) {
+                Velocity(el, {translateY: "-30px", opacity: 0}, {delay: 500, duration: 500}, {complete: done});
             }
         }
     }

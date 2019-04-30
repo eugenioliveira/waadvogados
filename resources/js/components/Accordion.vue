@@ -24,9 +24,9 @@
 <script>
 
     import {library} from '@fortawesome/fontawesome-svg-core';
-    import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-    import velocity from 'velocity-animate';
+    import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+    import Velocity from 'velocity-animate';
 
     library.add(faMinus, faPlus);
 
@@ -47,9 +47,11 @@
             toggle() {
                 this.isOpen = !this.isOpen
             },
+
             enter(el, done) {
                 Velocity(el, 'slideDown', {duration: 500}, {complete: done});
             },
+
             leave(el, done) {
                 Velocity(el, 'slideUp', {complete: done})
             }

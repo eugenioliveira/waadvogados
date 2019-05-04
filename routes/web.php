@@ -17,3 +17,7 @@ Route::get('institucional', 'PagesController@about')->name('about');
 Route::get('areasdeatuacao', 'PagesController@areas')->name('areas');
 Route::get('profissionais', 'PagesController@ourpeople')->name('ourpeople');
 Route::get('noticias', 'PagesController@news')->name('news');
+
+// Contato
+Route::get('contato', 'ContactController@index')->name('contact');
+Route::post('contato', 'ContactController@store')->name('sendContact');

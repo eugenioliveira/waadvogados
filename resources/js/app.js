@@ -16,8 +16,13 @@ window.Vue = require('vue');
 
 Vue.component('wa-carousel', require('./components/WaCarousel.vue').default);
 Vue.component('accordion', require('./components/Accordion.vue').default);
+
+// Componentes relacionados às notícias
 Vue.component('news', require('./components/News/News.vue').default);
 Vue.component('news-tab', require('./components/News/NewsTab.vue').default);
+
+// Componentes de forms
+Vue.component('contact-form', require('./components/ContactForm.vue').default);
 
 const app = new Vue({
     el: '#app'

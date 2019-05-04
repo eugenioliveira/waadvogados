@@ -20,7 +20,7 @@
         <div class="border-2 border-blue-darker my-1"></div>
         <div class="border-2 border-blue-darker my-1"></div>
 
-        <div class="mt-10">
+        <div class="mt-10 leading-tight">
 
             <p class="my-3">
                 As notícias exibidas aqui são provenientes dos portais dos tribunais superiores e regionais. Notícias

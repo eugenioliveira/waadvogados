@@ -27,7 +27,7 @@
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Profissionais</a>
             <a href="{{ route('news') }}"
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Notícias</a>
-            <a href="#"
+            <a href="{{ route('contact') }}"
                class="block lg:inline-block py-2 lg:px-4 no-underline text-black hover:text-grey-dark">Contato</a>
         </div>
     </div>

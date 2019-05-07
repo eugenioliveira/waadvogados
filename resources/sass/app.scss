@@ -1,6 +1,5 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i|Marcellus+SC');
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i|Marcellus+SC");
 
 // Tailwind base styles
 @tailwind preflight;
@@ -12,37 +11,50 @@
 @tailwind utilities;
 
 body {
-  @apply .font-sans;
+    @apply .font-sans;
 }
 
 .header {
-  background: radial-gradient(circle, #1C3D5A, #12283A);
+    background: radial-gradient(circle, #1c3d5a, #12283a);
 }
 
 .text-inherit {
-  color: inherit;
+    color: inherit;
 }
 
 .nav-active {
-  @apply .border-b-2 .border-blue-dark;
+    @apply .border-b-2 .border-blue-dark;
 }
 
 .bg-slide {
-  background: linear-gradient(to right, rgba(18, 40, 58, 1) 30%, rgba(18, 40, 58, 0));
+    background: linear-gradient(
+        to right,
+        rgba(18, 40, 58, 1) 30%,
+        rgba(18, 40, 58, 0)
+    );
 }
 
 .tab-news {
-  @apply .no-underline .bg-white .inline-block .py-2 .px-4 .font-serif .font-bold;
+    @apply .no-underline .bg-white .inline-block .py-2 .px-4 .font-serif .font-bold;
 }
 
 .tab-news-normal {
-  @apply .text-blue-light;
+    @apply .text-blue-light;
 }
 
 .tab-news-normal:hover {
-  @apply .text-blue-dark;
+    @apply .text-blue-dark;
 }
 
 .tab-news-active {
-  @apply .text-blue-darker .font-serif .font-bold .border-blue-darker .border-l .border-t .border-r .rounded-t .-mb-px;
+    @apply .text-blue-darker .font-serif .font-bold .border-blue-darker .border-l .border-t .border-r .rounded-t .-mb-px;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+
+    border-bottom: 10px solid #e3342f;
 }

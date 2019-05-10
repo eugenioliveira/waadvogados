@@ -90,6 +90,6 @@ export default class Form {
      * @param errors
      */
     onFail(errors) {
-        this.errors.record(errors);
+        this.errors.record(errors.errors);
     }
 }

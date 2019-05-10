@@ -6198,6 +6198,11 @@ body {
   border-bottom: 10px solid #e3342f;
 }
 
+.button-disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

@@ -6,6 +6,7 @@
                     name="completeName"
                     label="Nome completo"
                     v-model="form.completeName"
+                    :error="form.errors.get('completeName')"
                     @keydown.native="form.errors.clear('completeName')"
                 ></text-input>
             </div>
@@ -14,6 +15,7 @@
                     name="email"
                     label="Endereço de e-mail"
                     v-model="form.email"
+                    :error="form.errors.get('email')"
                     @keydown.native="form.errors.clear('email')"
                 ></text-input>
             </div>
@@ -25,6 +27,7 @@
                     label="Telefone"
                     v-model="form.phone"
                     placeholder="DDD + Telefone. Ex.: 35999999999"
+                    :error="form.errors.get('phone')"
                     @keydown.native="form.errors.clear('phone')"
                 ></text-input>
             </div>
@@ -34,6 +37,7 @@
                     label="Estado"
                     :options="states"
                     v-model="form.state"
+                    :error="form.errors.get('state')"
                     @change.native="getCities()"
                 ></select-input>
             </div>
@@ -41,9 +45,11 @@
                 <select-input
                     name="city"
                     label="Cidade"
-                    :options="cities"
+                    :options="orderedCities"
                     :loading="loadingCities"
                     v-model="form.city"
+                    :error="form.errors.get('city')"
+                    @change.native="form.errors.clear('city')"
                 ></select-input>
             </div>
         </div>
@@ -52,13 +58,22 @@
                 name="message"
                 label="Digite a sua mensagem"
                 v-model="form.message"
+                :error="form.errors.get('message')"
                 @keydown.native="form.errors.clear('message')"
             ></textarea-input>
         </div>
+        <vue-recaptcha
+            ref="invisibleRecaptcha"
+            @verify="submitForm"
+            size="invisible"
+            :sitekey="siteKey"
+        ></vue-recaptcha>
         <div class="text-center">
             <button
-                @click.prevent="submitForm()"
+                @click.prevent="executeRecaptcha"
                 class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mr-4"
+                :class="{'button-disabled' : form.errors.any()}"
+                :disabled="form.errors.any()"
             >Enviar</button>
             <button
                 @click.prevent="form.reset()"
@@ -73,20 +88,35 @@
     import TextInput from "./Form/TextInput";
     import SelectInput from "./Form/SelectInput";
     import TextareaInput from "./Form/TextareaInput";
+    import VueRecaptcha from "vue-recaptcha";
 
     export default {
         name: "ContactForm",
 
-        components: { TextInput, SelectInput, TextareaInput },
+        components: { TextInput, SelectInput, TextareaInput, VueRecaptcha },
 
         props: {
-            action: { type: String, required: true }
+            action: { type: String, required: true },
+            siteKey: { type: String, required: true }
+        },
+
+        computed: {
+            orderedCities() {
+                return _.orderBy(this.cities, ["text"]);
+            }
         },
 
         data() {
             return {
-                form: {},
-                errors: {},
+                form: new Form({
+                    completeName: "",
+                    email: "",
+                    phone: "",
+                    state: "",
+                    city: "",
+                    message: "",
+                    recaptcha: ""
+                }),
                 states: [],
                 cities: [],
                 loadingStates: false,
@@ -96,6 +126,7 @@
 
         methods: {
             getCities() {
+                this.form.errors.clear("state");
                 this.cities = [];
                 this.loadingCities = true;
                 axios
@@ -105,20 +136,27 @@
                         }/municipios`
                     )
                     .then(response => {
-                        _.orderBy(response.data, ["nome"]).map(city => {
+                        response.data.map(city => {
                             this.cities.push({
                                 value: `${city.nome} - ${
                                     city.microrregiao.mesorregiao.UF.sigla
                                 }`,
-                                text: city.nome
+                                text: _.deburr(city.nome)
                             });
                         });
                         this.loadingCities = false;
                     });
             },
 
-            submitForm() {
+            // execute the recaptcha widget
+            executeRecaptcha() {
+                this.$refs.invisibleRecaptcha.execute();
+            },
+
+            submitForm(token) {
+                this.form.recaptcha = token;
                 this.form.post(this.action);
+                this.$refs.invisibleRecaptcha.reset();
             }
         },
 
@@ -132,14 +170,6 @@
                         this.loadingStates = false;
                     });
                 });
-        },
-
-        mounted() {
-            let formData = {};
-            this.$children.forEach(input => {
-                formData[input.name] = "";
-            });
-            this.form = new Form(formData);
         }
     };
 </script>

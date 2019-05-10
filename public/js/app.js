@@ -11312,6 +11312,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Form_TextInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form/TextInput */ "./resources/js/components/Form/TextInput.vue");
 /* harmony import */ var _Form_SelectInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Form/SelectInput */ "./resources/js/components/Form/SelectInput.vue");
 /* harmony import */ var _Form_TextareaInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Form/TextareaInput */ "./resources/js/components/Form/TextareaInput.vue");
+/* harmony import */ var vue_recaptcha__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-recaptcha */ "./node_modules/vue-recaptcha/dist/vue-recaptcha.es.js");
 //
 //
 //
@@ -11382,6 +11383,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -11391,18 +11408,35 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TextInput: _Form_TextInput__WEBPACK_IMPORTED_MODULE_1__["default"],
     SelectInput: _Form_SelectInput__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TextareaInput: _Form_TextareaInput__WEBPACK_IMPORTED_MODULE_3__["default"]
+    TextareaInput: _Form_TextareaInput__WEBPACK_IMPORTED_MODULE_3__["default"],
+    VueRecaptcha: vue_recaptcha__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     action: {
       type: String,
       required: true
+    },
+    siteKey: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    orderedCities: function orderedCities() {
+      return _.orderBy(this.cities, ["text"]);
     }
   },
   data: function data() {
     return {
-      form: {},
-      errors: {},
+      form: new _Form_Form__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        completeName: "",
+        email: "",
+        phone: "",
+        state: "",
+        city: "",
+        message: "",
+        recaptcha: ""
+      }),
       states: [],
       cities: [],
       loadingStates: false,
@@ -11413,21 +11447,27 @@ __webpack_require__.r(__webpack_exports__);
     getCities: function getCities() {
       var _this = this;
 
+      this.form.errors.clear("state");
       this.cities = [];
       this.loadingCities = true;
       axios.get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/".concat(this.form.state, "/municipios")).then(function (response) {
-        _.orderBy(response.data, ["nome"]).map(function (city) {
+        response.data.map(function (city) {
           _this.cities.push({
             value: "".concat(city.nome, " - ").concat(city.microrregiao.mesorregiao.UF.sigla),
-            text: city.nome
+            text: _.deburr(city.nome)
           });
         });
-
         _this.loadingCities = false;
       });
     },
-    submitForm: function submitForm() {
+    // execute the recaptcha widget
+    executeRecaptcha: function executeRecaptcha() {
+      this.$refs.invisibleRecaptcha.execute();
+    },
+    submitForm: function submitForm(token) {
+      this.form.recaptcha = token;
       this.form.post(this.action);
+      this.$refs.invisibleRecaptcha.reset();
     }
   },
   created: function created() {
@@ -11444,13 +11484,6 @@ __webpack_require__.r(__webpack_exports__);
         _this2.loadingStates = false;
       });
     });
-  },
-  mounted: function mounted() {
-    var formData = {};
-    this.$children.forEach(function (input) {
-      formData[input.name] = "";
-    });
-    this.form = new _Form_Form__WEBPACK_IMPORTED_MODULE_0__["default"](formData);
   }
 });
 
@@ -48249,185 +48282,221 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", [
-    _c("div", { staticClass: "flex mb-4" }, [
-      _c(
-        "div",
-        { staticClass: "w-1/2 mr-4" },
-        [
-          _c("text-input", {
-            attrs: { name: "completeName", label: "Nome completo" },
-            nativeOn: {
-              keydown: function($event) {
-                return _vm.form.errors.clear("completeName")
-              }
-            },
-            model: {
-              value: _vm.form.completeName,
-              callback: function($$v) {
-                _vm.$set(_vm.form, "completeName", $$v)
+  return _c(
+    "form",
+    [
+      _c("div", { staticClass: "flex mb-4" }, [
+        _c(
+          "div",
+          { staticClass: "w-1/2 mr-4" },
+          [
+            _c("text-input", {
+              attrs: {
+                name: "completeName",
+                label: "Nome completo",
+                error: _vm.form.errors.get("completeName")
               },
-              expression: "form.completeName"
-            }
-          })
-        ],
-        1
-      ),
+              nativeOn: {
+                keydown: function($event) {
+                  return _vm.form.errors.clear("completeName")
+                }
+              },
+              model: {
+                value: _vm.form.completeName,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "completeName", $$v)
+                },
+                expression: "form.completeName"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "w-1/2" },
+          [
+            _c("text-input", {
+              attrs: {
+                name: "email",
+                label: "Endereço de e-mail",
+                error: _vm.form.errors.get("email")
+              },
+              nativeOn: {
+                keydown: function($event) {
+                  return _vm.form.errors.clear("email")
+                }
+              },
+              model: {
+                value: _vm.form.email,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "email", $$v)
+                },
+                expression: "form.email"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex mb-4" }, [
+        _c(
+          "div",
+          { staticClass: "flex-1 mr-4" },
+          [
+            _c("text-input", {
+              attrs: {
+                name: "phone",
+                label: "Telefone",
+                placeholder: "DDD + Telefone. Ex.: 35999999999",
+                error: _vm.form.errors.get("phone")
+              },
+              nativeOn: {
+                keydown: function($event) {
+                  return _vm.form.errors.clear("phone")
+                }
+              },
+              model: {
+                value: _vm.form.phone,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "phone", $$v)
+                },
+                expression: "form.phone"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "w-36 mr-4" },
+          [
+            _c("select-input", {
+              attrs: {
+                name: "state",
+                label: "Estado",
+                options: _vm.states,
+                error: _vm.form.errors.get("state")
+              },
+              nativeOn: {
+                change: function($event) {
+                  return _vm.getCities()
+                }
+              },
+              model: {
+                value: _vm.form.state,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "state", $$v)
+                },
+                expression: "form.state"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex-1" },
+          [
+            _c("select-input", {
+              attrs: {
+                name: "city",
+                label: "Cidade",
+                options: _vm.orderedCities,
+                loading: _vm.loadingCities,
+                error: _vm.form.errors.get("city")
+              },
+              nativeOn: {
+                change: function($event) {
+                  return _vm.form.errors.clear("city")
+                }
+              },
+              model: {
+                value: _vm.form.city,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "city", $$v)
+                },
+                expression: "form.city"
+              }
+            })
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "w-1/2" },
+        { staticClass: "w-full mb-4" },
         [
-          _c("text-input", {
-            attrs: { name: "email", label: "Endereço de e-mail" },
-            nativeOn: {
-              keydown: function($event) {
-                return _vm.form.errors.clear("email")
-              }
-            },
-            model: {
-              value: _vm.form.email,
-              callback: function($$v) {
-                _vm.$set(_vm.form, "email", $$v)
-              },
-              expression: "form.email"
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "flex mb-4" }, [
-      _c(
-        "div",
-        { staticClass: "flex-1 mr-4" },
-        [
-          _c("text-input", {
+          _c("textarea-input", {
             attrs: {
-              name: "phone",
-              label: "Telefone",
-              placeholder: "DDD + Telefone. Ex.: 35999999999"
+              name: "message",
+              label: "Digite a sua mensagem",
+              error: _vm.form.errors.get("message")
             },
             nativeOn: {
               keydown: function($event) {
-                return _vm.form.errors.clear("phone")
+                return _vm.form.errors.clear("message")
               }
             },
             model: {
-              value: _vm.form.phone,
+              value: _vm.form.message,
               callback: function($$v) {
-                _vm.$set(_vm.form, "phone", $$v)
+                _vm.$set(_vm.form, "message", $$v)
               },
-              expression: "form.phone"
+              expression: "form.message"
             }
           })
         ],
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "w-36 mr-4" },
-        [
-          _c("select-input", {
-            attrs: { name: "state", label: "Estado", options: _vm.states },
-            nativeOn: {
-              change: function($event) {
-                return _vm.getCities()
-              }
-            },
-            model: {
-              value: _vm.form.state,
-              callback: function($$v) {
-                _vm.$set(_vm.form, "state", $$v)
-              },
-              expression: "form.state"
-            }
-          })
-        ],
-        1
-      ),
+      _c("vue-recaptcha", {
+        ref: "invisibleRecaptcha",
+        attrs: { size: "invisible", sitekey: _vm.siteKey },
+        on: { verify: _vm.submitForm }
+      }),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex-1" },
-        [
-          _c("select-input", {
-            attrs: {
-              name: "city",
-              label: "Cidade",
-              options: _vm.cities,
-              loading: _vm.loadingCities
-            },
-            model: {
-              value: _vm.form.city,
-              callback: function($$v) {
-                _vm.$set(_vm.form, "city", $$v)
-              },
-              expression: "form.city"
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "w-full mb-4" },
-      [
-        _c("textarea-input", {
-          attrs: { name: "message", label: "Digite a sua mensagem" },
-          nativeOn: {
-            keydown: function($event) {
-              return _vm.form.errors.clear("message")
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mr-4",
+            class: { "button-disabled": _vm.form.errors.any() },
+            attrs: { disabled: _vm.form.errors.any() },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.executeRecaptcha($event)
+              }
             }
           },
-          model: {
-            value: _vm.form.message,
-            callback: function($$v) {
-              _vm.$set(_vm.form, "message", $$v)
-            },
-            expression: "form.message"
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "text-center" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mr-4",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.submitForm()
+          [_vm._v("Enviar")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.form.reset()
+              }
             }
-          }
-        },
-        [_vm._v("Enviar")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass:
-            "bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.form.reset()
-            }
-          }
-        },
-        [_vm._v("Limpar")]
-      )
-    ])
-  ])
+          },
+          [_vm._v("Limpar")]
+        )
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48997,6 +49066,180 @@ function normalizeComponent (
     options: options
   }
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-recaptcha/dist/vue-recaptcha.es.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/vue-recaptcha/dist/vue-recaptcha.es.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var defer = function defer() {
+  var state = false; // Resolved or not
+  var callbacks = [];
+  var resolve = function resolve(val) {
+    if (state) {
+      return;
+    }
+
+    state = true;
+    for (var i = 0, len = callbacks.length; i < len; i++) {
+      callbacks[i](val);
+    }
+  };
+
+  var then = function then(cb) {
+    if (!state) {
+      callbacks.push(cb);
+      return;
+    }
+    cb();
+  };
+
+  var deferred = {
+    resolved: function resolved() {
+      return state;
+    },
+
+    resolve: resolve,
+    promise: {
+      then: then
+    }
+  };
+  return deferred;
+};
+
+function createRecaptcha() {
+  var deferred = defer();
+
+  return {
+    notify: function notify() {
+      deferred.resolve();
+    },
+    wait: function wait() {
+      return deferred.promise;
+    },
+    render: function render(ele, options, cb) {
+      this.wait().then(function () {
+        cb(window.grecaptcha.render(ele, options));
+      });
+    },
+    reset: function reset(widgetId) {
+      if (typeof widgetId === 'undefined') {
+        return;
+      }
+
+      this.assertLoaded();
+      this.wait().then(function () {
+        return window.grecaptcha.reset(widgetId);
+      });
+    },
+    execute: function execute(widgetId) {
+      if (typeof widgetId === 'undefined') {
+        return;
+      }
+
+      this.assertLoaded();
+      this.wait().then(function () {
+        return window.grecaptcha.execute(widgetId);
+      });
+    },
+    checkRecaptchaLoad: function checkRecaptchaLoad() {
+      if (window.hasOwnProperty('grecaptcha') && window.grecaptcha.hasOwnProperty('render')) {
+        this.notify();
+      }
+    },
+    assertLoaded: function assertLoaded() {
+      if (!deferred.resolved()) {
+        throw new Error('ReCAPTCHA has not been loaded');
+      }
+    }
+  };
+}
+
+var recaptcha = createRecaptcha();
+
+if (typeof window !== 'undefined') {
+  window.vueRecaptchaApiLoaded = recaptcha.notify;
+}
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+var VueRecaptcha = {
+  name: 'VueRecaptcha',
+  props: {
+    sitekey: {
+      type: String,
+      required: true
+    },
+    theme: {
+      type: String
+    },
+    badge: {
+      type: String
+    },
+    type: {
+      type: String
+    },
+    size: {
+      type: String
+    },
+    tabindex: {
+      type: String
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    recaptcha.checkRecaptchaLoad();
+    var opts = _extends({}, this.$props, {
+      callback: this.emitVerify,
+      'expired-callback': this.emitExpired
+    });
+    var container = this.$slots.default ? this.$el.children[0] : this.$el;
+    recaptcha.render(container, opts, function (id) {
+      _this.$widgetId = id;
+      _this.$emit('render', id);
+    });
+  },
+
+  methods: {
+    reset: function reset() {
+      recaptcha.reset(this.$widgetId);
+    },
+    execute: function execute() {
+      recaptcha.execute(this.$widgetId);
+    },
+    emitVerify: function emitVerify(response) {
+      this.$emit('verify', response);
+    },
+    emitExpired: function emitExpired() {
+      this.$emit('expired');
+    }
+  },
+  render: function render(h) {
+    return h('div', {}, this.$slots.default);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (VueRecaptcha);
 
 
 /***/ }),
@@ -61487,7 +61730,7 @@ function () {
   }, {
     key: "onFail",
     value: function onFail(errors) {
-      this.errors.record(errors);
+      this.errors.record(errors.errors);
     }
   }]);
 

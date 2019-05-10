@@ -1,23 +1,28 @@
 @component('mail::message')
-# Formulário de contato - Site Wolney Araújo Dias Advogados
+# FORMULÁRIO DE CONTATO
 
 Olá!
 
 Este é um e-mail enviado pelo sistema de contato do site Wolney Araújo Dias. Os dados enviados foram:
 
 @component('mail::panel')
-**Nome**: {{ $contactFormRequest->get('completeName')}}
+**Nome**: {{ $contactFormRequest->get('completeName') }}
 
-**E-mail**: {{ $contactFormRequest->get('email')}}
+**E-mail**: {{ $contactFormRequest->get('email') }}
 
-**Telefone**: {{ $contactFormRequest->get('phone')}}
+**Telefone**: {{ $contactFormRequest->get('phone') }}
 
-**Cidade**: {{ $contactFormRequest->get('city')}}
+**Cidade**: {{ $contactFormRequest->get('city') }}
 @endcomponent
 
-## Mensagem enviada por {{ $contactFormRequest->get('completeName')}}:
+## Mensagem enviada por {{ $contactFormRequest->get('completeName') }}:
 
-{{ $contactFormRequest->get('message')}}
+@component('mail::panel')
+{{ $contactFormRequest->get('message') }}
+@endcomponent
 
+Att,
+
+[waadvogados.com](https://waadvogados.com)
 
 @endcomponent

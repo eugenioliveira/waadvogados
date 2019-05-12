@@ -89,6 +89,7 @@
     import SelectInput from "./Form/SelectInput";
     import TextareaInput from "./Form/TextareaInput";
     import VueRecaptcha from "vue-recaptcha";
+    import { resolve, reject } from "q";
 
     export default {
         name: "ContactForm",
@@ -129,28 +130,45 @@
                 this.form.errors.clear("state");
                 this.cities = [];
                 this.loadingCities = true;
-                axios
-                    .get(
-                        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${
-                            this.form.state
-                        }/municipios`
-                    )
-                    .then(response => {
-                        response.data.map(city => {
-                            this.cities.push({
-                                value: `${city.nome} - ${
-                                    city.microrregiao.mesorregiao.UF.sigla
-                                }`,
-                                text: _.deburr(city.nome)
-                            });
+                // Busca os estados na API do IBGE
+                let url =
+                    "https://servicodados.ibge.gov.br/api/v1/localidades/estados/" +
+                    this.form.state +
+                    "/municipios";
+                this.getExternalData(url).then(data => {
+                    data.map(city => {
+                        this.cities.push({
+                            value:
+                                city.nome +
+                                " - " +
+                                city.microrregiao.mesorregiao.UF.sigla,
+                            text: _.deburr(city.nome)
                         });
-                        this.loadingCities = false;
                     });
+                    this.loadingCities = false;
+                });
             },
 
             // execute the recaptcha widget
             executeRecaptcha() {
                 this.$refs.invisibleRecaptcha.execute();
+            },
+
+            getExternalData(url) {
+                // Cria uma instância personalizada do Axios eliminando os cabeçalhos
+                // não permitidos para consulta na API do IBGE
+                let instance = axios.create();
+                instance.defaults.headers.common = {};
+                return new Promise((resolve, reject) => {
+                    instance
+                        .get(url)
+                        .then(response => {
+                            resolve(response.data);
+                        })
+                        .catch(error => {
+                            reject(error.response.data);
+                        });
+                });
             },
 
             submitForm(token) {
@@ -162,14 +180,14 @@
 
         created() {
             this.loadingStates = true;
-            axios
-                .get("https://servicodados.ibge.gov.br/api/v1/localidades/estados")
-                .then(response => {
-                    _.orderBy(response.data, ["nome"]).map(state => {
-                        this.states.push({ value: state.id, text: state.sigla });
-                        this.loadingStates = false;
-                    });
+            this.getExternalData(
+                "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+            ).then(data => {
+                _.orderBy(data, ["nome"]).map(state => {
+                    this.states.push({ value: state.id, text: state.sigla });
+                    this.loadingStates = false;
                 });
+            });
         }
     };
 </script>

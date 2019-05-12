@@ -68,9 +68,9 @@ export default class Form {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    this.onFail(error.response.data);
+                    this.onFail(error.response);
 
-                    reject(error.response.data);
+                    reject(error.response);
                 });
         });
     }
@@ -81,7 +81,13 @@ export default class Form {
      * @param data
      */
     onSuccess(data) {
-        alert(data.message);
+
+        Swal.fire({
+            title: 'Sucesso!',
+            text: data.message,
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
 
         this.reset();
     }
@@ -91,6 +97,15 @@ export default class Form {
      * @param errors
      */
     onFail(errors) {
-        this.errors.record(errors.errors);
+        if (errors.status === 423) {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Houve um erro ao enviar o e-mail.',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        } else {
+            this.errors.record(errors.data);
+        }
     }
 }

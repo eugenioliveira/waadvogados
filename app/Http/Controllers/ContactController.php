@@ -27,6 +27,11 @@ class ContactController extends Controller
      */
     public function store(SendContactForm $request)
     {
-        Mail::to('geninoliveira@gmail.com')->send(new ContactFormMail($request));
+        try {
+            Mail::to('geninoliveira@gmail.com')->send(new ContactFormMail($request));
+            return response()->json(['message' => 'E-mail enviado com sucesso!'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 423);
+        }
     }
 }

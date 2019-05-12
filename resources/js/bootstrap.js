@@ -13,6 +13,12 @@ window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 } catch (e) { } */
 
+/**
+ * Loading Sweetalert, which allows us to display alerts in a wonderful way
+ */
+
+window.Swal = require('sweetalert2');
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

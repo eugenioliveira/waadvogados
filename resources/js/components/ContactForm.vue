@@ -84,12 +84,12 @@
 </template>
 
 <script>
-    import Form from "./Form/Form";
-    import TextInput from "./Form/TextInput";
-    import SelectInput from "./Form/SelectInput";
-    import TextareaInput from "./Form/TextareaInput";
+    import Form from "./Form/Form.js";
+    import Headers from "./Form/Headers.js";
+    import TextInput from "./Form/TextInput.vue";
+    import SelectInput from "./Form/SelectInput.vue";
+    import TextareaInput from "./Form/TextareaInput.vue";
     import VueRecaptcha from "vue-recaptcha";
-    import { resolve, reject } from "q";
 
     export default {
         name: "ContactForm",
@@ -97,10 +97,13 @@
         components: { TextInput, SelectInput, TextareaInput, VueRecaptcha },
 
         props: {
+            // A ação do formulário de contato.
             action: { type: String, required: true },
+            // A chave para verificação reCaptcha v2
             siteKey: { type: String, required: true }
         },
 
+        // Ordena as cidades por nome.
         computed: {
             orderedCities() {
                 return _.orderBy(this.cities, ["text"]);
@@ -118,6 +121,8 @@
                     message: "",
                     recaptcha: ""
                 }),
+                // Classe responsável pela manipulação dos cabeçalhos axios
+                headers: new Headers(),
                 states: [],
                 cities: [],
                 loadingStates: false,
@@ -154,20 +159,21 @@
                 this.$refs.invisibleRecaptcha.execute();
             },
 
+            // Customiza a instância axios para realizar chamadas externas.
             getExternalData(url) {
-                // Cria uma instância personalizada do Axios eliminando os cabeçalhos
-                // não permitidos para consulta na API do IBGE
-                let instance = axios.create();
-                instance.defaults.headers.common = {};
                 return new Promise((resolve, reject) => {
-                    instance
+                    // Remove os cabeçalhos
+                    this.headers.unsetHeaders();
+                    axios
                         .get(url)
                         .then(response => {
                             resolve(response.data);
                         })
                         .catch(error => {
-                            reject(error.response.data);
+                            resolve(error.response.data);
                         });
+                    // Retorna com os cabeçalhos
+                    this.headers.setHeaders();
                 });
             },
 

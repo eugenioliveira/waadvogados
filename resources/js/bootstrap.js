@@ -9,9 +9,9 @@ window.Popper = require('popper.js').default;
  */
 
 
-try {
+/* try {
     window.$ = window.jQuery = require('jquery');
-} catch (e) { }
+} catch (e) { } */
 
 
 /**

@@ -15,6 +15,7 @@ export default class Form {
         }
 
         this.errors = new Errors();
+        this.headers = new Headers();
     }
 
     /**

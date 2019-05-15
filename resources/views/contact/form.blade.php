@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<section class="container mx-auto">
+<section class="container p-4 mx-auto">
 
     <h1 class="font-serif text-blue-darker">ENTRE EM CONTATO CONOSCO</h1>
     <div class="border-2 border-blue-darker my-1"></div>

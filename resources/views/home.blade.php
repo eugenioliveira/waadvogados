@@ -93,7 +93,7 @@
     </div>
     {{--Fim das Notícias --}}
 
-    <div class="container lg:mx-auto lg:flex">
+    <div class="container p-4 lg:mx-auto lg:flex">
 
         {{-- Área do cliente --}}
         <div class="m-4 lg:w-1/2">

@@ -1,7 +1,7 @@
 <template>
     <form>
-        <div class="flex mb-4">
-            <div class="w-1/2 mr-4">
+        <div class="md:flex my-2">
+            <div class="w-full md:w-1/2 mb-2 md:mr-4">
                 <text-input
                     name="completeName"
                     label="Nome completo"
@@ -10,7 +10,7 @@
                     @keydown.native="form.errors.clear('completeName')"
                 ></text-input>
             </div>
-            <div class="w-1/2">
+            <div class="w-full md:w-1/2">
                 <text-input
                     name="email"
                     label="Endereço de e-mail"
@@ -20,8 +20,8 @@
                 ></text-input>
             </div>
         </div>
-        <div class="flex mb-4">
-            <div class="flex-1 mr-4">
+        <div class="md:flex my-2">
+            <div class="w-full md:flex-1 mb-2 md:mr-4">
                 <text-input
                     name="phone"
                     label="Telefone"
@@ -31,7 +31,7 @@
                     @keydown.native="form.errors.clear('phone')"
                 ></text-input>
             </div>
-            <div class="w-36 mr-4">
+            <div class="md:w-36 mb-2 md:mr-4">
                 <select-input
                     name="state"
                     label="Estado"
@@ -41,7 +41,7 @@
                     @change.native="getCities()"
                 ></select-input>
             </div>
-            <div class="flex-1">
+            <div class="w-full md:flex-1">
                 <select-input
                     name="city"
                     label="Cidade"
@@ -53,7 +53,7 @@
                 ></select-input>
             </div>
         </div>
-        <div class="w-full mb-4">
+        <div class="w-full my-2">
             <textarea-input
                 name="message"
                 label="Digite a sua mensagem"

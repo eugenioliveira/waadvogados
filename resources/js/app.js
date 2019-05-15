@@ -24,6 +24,9 @@ Vue.component('news-tab', require('./components/News/NewsTab.vue').default);
 // Componentes de forms
 Vue.component('contact-form', require('./components/ContactForm.vue').default);
 
+//Mapa do escritório
+Vue.component('office-map', require('./components/OfficeMap.vue').default);
+
 const app = new Vue({
     el: '#app'
 });

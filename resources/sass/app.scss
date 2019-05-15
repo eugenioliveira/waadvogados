@@ -10,6 +10,9 @@
 // Tailwind utilities
 @tailwind utilities;
 
+// Leaflet
+ @import "~leaflet/dist/leaflet";
+
 body {
     @apply .font-sans;
 }

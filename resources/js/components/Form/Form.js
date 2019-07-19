@@ -105,7 +105,7 @@ export default class Form {
                 confirmButtonText: 'Ok'
             })
         } else {
-            this.errors.record(errors.data);
+            this.errors.record(errors.data.errors);
         }
     }
 }

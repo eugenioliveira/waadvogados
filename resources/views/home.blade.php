@@ -45,12 +45,14 @@
             <h1 class="font-serif text-center text-blue-darker"><i class="fa fa-envelope fa-2x"></i><br>WEBMAIL</h1>
             <div class="border-2 border-blue-darker my-1"></div>
             <div class="border-2 border-blue-darker my-1"></div>
-            <a class="text-inherit no-underline hover:underline"
-               href="https://webmail.waadvogados.com"
-               target="_blank"
-               rel="noopener noreferrer">
-                Clique aqui para acessar o WEBMAIL.
-            </a>
+            <p class="text-center mt-4">
+                <a class="text-inherit no-underline hover:underline"
+                   href="https://webmail.waadvogados.com"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Clique aqui para acessar o WEBMAIL.
+                </a>
+            </p>
         </div>
     </div>
     {{--Fim dos destaques--}}
